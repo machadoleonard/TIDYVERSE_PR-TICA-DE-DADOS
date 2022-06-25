@@ -26,3 +26,4 @@ starwars %>%
   select(ends_with("color"))
 starwars %>% 
   select(contains("color"))
+getwd()
