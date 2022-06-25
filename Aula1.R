@@ -24,3 +24,5 @@ starwars %>%
   select(-films ,    -vehicles ,- starships)
 starwars %>% 
   select(ends_with("color"))
+starwars %>% 
+  select(contains("color"))
