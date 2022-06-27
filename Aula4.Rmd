@@ -1,0 +1,89 @@
+---
+title: "FUNÇÃO ARRANGE E SLICE NO R"
+author: "Leonardo Machado"
+date: '2022-06-27'
+output:
+  word_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r include=FALSE}
+library(tidyverse)
+data("starwars")
+```
+
+###Funções###
+
+As funções, arrange() e slice(), permitem, respectivamente, ordenar e selecionar dados de um data frame.
+
+## Arrange()
+
+```{r}
+starwars %>% 
+  arrange(height)
+
+```
+
+O comando acima resulta em uma saída em ordem crescente, como deaful. Para saída em ordem decrescente , temos duas formas:
+
+```{r}
+starwars %>% 
+  arrange(- height)
+```
+
+Ou
+
+```{r}
+starwars %>% 
+  arrange(desc(height))
+```
+
+Ordenando múltiplas colunas
+
+```{r}
+starwars %>% 
+  arrange(hair_color,height)
+```
+
+Atenção que a ordem das colunas fazem diferença. No caso acima a saída será ordenado primeiramente a primeira coluna e dentro de cada classe dessa ordem a oredm dos pesos
+
+## slice
+
+No primeiro caso utilizaremos o comando slice.head para encontrarmos os três personagens mais baixos. Veja , primeiramente organizo os dados em ordem crescente, assim os três primeiros serão o desejado.
+
+```{r}
+starwars %>% 
+  arrange(height) %>%
+  slice_head(n=3)
+```
+
+O comando slice.head necessita definir o parâmetro n, o número de observação desejada.
+
+Agora, os três mais altos
+
+Duas maneiras possível: ordenando de forma decrescente e utilizano o slice.head, ou mantendo o ordenamento crescente e utilizando o slice.tail(n = ?)
+
+```{r}
+starwars %>% 
+  arrange(-height) %>% 
+  slice_head(n=3)
+```
+
+De outra forma:
+
+```{r}
+starwars %>% 
+  arrange(height) %>% 
+  slice_tail(n=3)
+```
+
+## slice.sample(n=?)
+
+O comando acima permite selecionar uma amostra aleatória do data frame, operação muito utilizada para retirar-se amostra controle X amostra teste.
+
+```{r}
+starwars %>% 
+  slice_sample(n=10)
+
+```
