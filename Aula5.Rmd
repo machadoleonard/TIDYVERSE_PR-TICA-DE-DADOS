@@ -1,0 +1,81 @@
+---
+title: "Aula5"
+author: "Leonardo Machado"
+date: '2022-06-28'
+output: html_document
+---
+
+### FUNÇÃO SUMMARISE e GROUP_BY ###
+
+Exemplos utilizando o banco de dados do starwars do próprio R
+
+## summarise ##
+
+```{r include=FALSE}
+library(tidyverse)
+data(starwars)
+starwars
+```
+
+Aplicação do summarise() para agrupar os dados
+
+```{r}
+starwars %>% 
+  summarise(  
+    personagens = n(), 
+    altura_media = mean(height, na.rm = T),
+    menor_massa = min(mass, na.rm = T)
+  )
+```
+
+No comando acima temos a atribuição do nº de linhas a variável personagens. O comando mean retorna a media da coluna especificada. Contudo nesta coluna existe valores 'NA', os quais retornam nula a média. Para resolver este problema usa-se o comando na.rm = T , que significa : onde tem "NA" remova e calcule onde o 'T' é verdadeiro.
+
+## group_by() + summarise() para agregar por grupos ##
+
+```{r}
+starwars %>% 
+  group_by(eye_color) %>% 
+  summarise(
+    personagens = n()
+    
+  )
+```
+
+O comando acima pode ser lido da seguinte maneira: agrupe a coluna escolhida , ou seja , o comando irá agrupar todos os tipos existententes dendro da coluna e em seguida utilizando o comando summarise retornará a quantidade de ocorrência em cada grupo.
+
+## Exemplos Práticos
+
+# Qual a média de altura por espécies ? #
+
+Resolução
+
+```{r}
+starwars %>% 
+  group_by(species) %>% 
+  summarise(
+    media_altura = mean(height,na.rm =T)
+    
+  )
+```
+
+# Quantos personagens há com cada cor de cabelo ? #
+
+```{r}
+starwars %>% 
+  group_by(hair_color) %>% 
+  summarise(
+    personagens = n()
+  )
+```
+
+# Há mais personagens humanos ou robôs? #
+
+```{r}
+starwars %>% 
+  group_by(species) %>% 
+  summarise(
+    personagens = n()
+  ) %>% 
+  filter(species %in% c("Human" , "Droid") ) 
+
+```
